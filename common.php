@@ -16,6 +16,11 @@
 
   $APIKeyValid = "false";
 
+  if (strlen($apikey) > 39){
+    $APIKeyValid = "true";
+  }
+  
+
   // If we have the keys, go for a drive right away...
   if (strlen($apikey) < 39){
 

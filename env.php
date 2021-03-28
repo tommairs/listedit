@@ -6,6 +6,6 @@
 $apikey = "";
 $apidomain = "api.sparkpost.com";
 $TZ = 'America/Edmonton';
-
+$apptitle = "List Editor";
 
 ?>
