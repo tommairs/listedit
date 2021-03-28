@@ -1,0 +1,506 @@
+
+body,
+.ad,
+.sm
+{
+  margin:5;
+  font: normal 14px Verdana, Arial, sans-serif;
+}
+
+a
+{
+        color: currentColor;
+        text-decoration: none;
+}
+
+
+#bkgnd 
+{
+/*
+background-image: url(https://dl.dropboxusercontent.com/u/4387255/bwback.jpg);
+background-repeat: repeat;
+   */
+}
+
+div#container 
+{
+width:500px;
+height:500px;
+overflow:auto;
+}
+
+ #scrollable_table 
+ {
+display: inline-block;
+overflow-y:scroll;
+border-collapse: collapse;
+}
+
+table {
+border-collapse: collapse;
+}
+
+h2 {
+display: block;
+font-size: 1.5em;
+margin-top: 0.83em;
+margin-bottom: 0.83em;
+margin-left: 0;
+margin-right: 0;
+font-weight: bold;
+font-family: Helvetica, Arial;
+}
+
+h3 {
+display: block;
+font-size: 1.17em;
+margin-top: 1em;
+margin-bottom: 1em;
+margin-left: 0;
+margin-right: 0;
+font-weight: bold;
+color: #298272;
+font-family: Helvetica, Arial;
+}
+
+h4 { 
+display: block;
+margin-top: 1.33em;
+margin-bottom: 1.33em;
+margin-left: 0;
+margin-right: 0;
+font-weight: bold;
+color: #298272;
+font-family: Helvetica, Arial;
+}
+
+select {
+padding: 16px 20px;
+border: 1px;
+border-color: #298272;
+background-color: #ffffff;
+font-size: 12px;
+font-family: Helvetica, Arial;
+color: #ffff;
+}
+
+.select-items {
+  color: #ffffff;
+}
+
+
+/* Can use this when I don't want an expanding input field */
+input[type=textnormal] {
+box-sizing: border-box;
+border: 1px solid #ccc;
+font-size: 12px;
+background-color: white;
+padding: 2px 2px 2px 4px;
+width : 200px;
+font-family: Helvetica, Arial;
+}
+
+/* This expands the text for more room while typing */
+input[type=text] {
+width: 130px;
+box-sizing: border-box;
+border: 1px solid #000000;
+font-size: 12px;
+background-color: white;
+-webkit-transition: width 0.4s ease-in-out;
+transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+width: 250px;
+border: 3px solid #555;
+}
+
+/* This expands the text for more room while typing */
+input[type=textdataentry] {
+width: 130px;
+box-sizing: border-box;
+border: 1px solid #000000;
+font-size: 12px;
+background-color: white;
+-webkit-transition: width 0.4s ease-in-out;
+transition: width 0.4s ease-in-out;
+}
+
+input[type=textdataentry]:focus {
+width: 400px;
+height: 600px;
+border: 3px solid #555;
+}
+
+/* This expands the text for more room while typing */
+input[type=longentry] {
+width: 300px;
+box-sizing: border-box;
+border: 1px solid #000000;
+font-size: 12px;
+background-color: white;
+-webkit-transition: width 0.4s ease-in-out;
+transition: width 0.4s ease-in-out;
+}
+
+input[type=longentry]:focus {
+width: 500px;
+border: 3px solid #555;
+}
+
+input[type=number] {
+width: 40px;
+height: 23px;
+box-sizing: border-box;
+border: 1px solid #000000;
+font-size: 12px;
+background-color: white;
+background-position: 10px 10px;
+background-repeat: no-repeat;
+padding: 2px 2px 2px 4px;
+-webkit-transition: width 0.4s ease-in-out;
+transition: width 0.4s ease-in-out;
+}
+
+input[type=number]:focus {
+width: 65px;
+border: 3px solid #555;
+}
+
+input[type=date] {
+width: 150px;
+height: 20px;
+box-sizing: border-box;
+border: 8px solid #000000;
+border-radius: 4px;
+font-size: 12px;
+background-color: white;
+background-position: 10px 10px;
+background-repeat: no-repeat;
+padding: 2px 2px 2px 4px;
+-webkit-transition: width 0.4s ease-in-out;
+transition: width 0.4s ease-in-out;
+}
+
+input[type=date]:focus {
+width: 200px;
+border: 3px solid #555;
+}
+
+#iframe1 {
+border: solid 0px;
+border-radius: 8px;
+padding-top: 1em;
+margin: 0 auto;
+font-family: Helvetica, Arial;
+}
+
+.alert {
+padding: 20px;
+background-color: #f44336;
+color: white;
+}
+
+.tooltip {
+position: relative;
+display: inline-block;
+border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+visibility: hidden;
+width: 120px;
+background-color: black;
+color: #fff;
+text-align: left;
+border-radius: 6px;
+padding: 5px 5px 5px 5px;
+font-size: 12px;
+
+/* Position the tooltip */
+position: absolute;
+z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+visibility: visible;
+}
+
+/* This forces more consistent look and field across browsers for pulldown select fields */
+@media screen and (-webkit-min-device-pixel-ratio:0) {  /*safari and chrome*/
+select {
+height:25px;
+line-height:25px;
+background:#f4f4f4;
+color:#000000;
+} 
+}
+select::-moz-focus-inner { /*Remove button padding in FF*/ 
+border: 0;
+padding: 0;
+}
+@-moz-document url-prefix() { /* targets Firefox only */
+select {
+padding: 5px 0!important;
+}
+}
+@media screen\0 { /* IE Hacks: targets IE 8, 9 and 10 */
+select {
+height:30px;
+line-height:30px;
+} 
+}
+ul.topnav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: inline-block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+ul.topnav li a:hover {background-color: #555;}
+
+ul.topnav li.icon {display: none;}
+
+@media screen and (max-width:680px) {
+  ul.topnav li:not(:first-child) {display: none;}
+  ul.topnav li.icon {
+float: right;
+display: inline-block;
+  }
+}
+
+@media screen and (max-width:680px) {
+  ul.topnav.responsive {position: relative;}
+  ul.topnav.responsive li.icon {
+position: absolute;
+right: 0;
+top: 0;
+  }
+  ul.topnav.responsive li {
+float: none;
+display: inline;
+  }
+  ul.topnav.responsive li a {
+display: block;
+text-align: left;
+  }
+}
+
+
+
+.box
+{
+font-size: 1.25rem; /* 20 */
+background-color: #c8dadf;
+position: relative;
+padding: 100px 20px;
+width: 300px;
+height: 2px;
+outline: 2px dashed #000000;
+}
+
+.box.has-advanced-upload
+{
+outline: 2px dashed #92b0b3;
+outline-offset: -10px;
+
+-webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
+transition: outline-offset .15s ease-in-out, background-color .15s linear;
+}
+.box.is-dragover
+{
+outline-offset: -20px;
+outline-color: #c8dadf;
+background-color: #fff;
+}
+.box__dragndrop,
+.box__icon
+{
+display: none;
+}
+.box.has-advanced-upload .box__dragndrop
+{
+display: inline;
+}
+.box.has-advanced-upload .box__icon
+{
+width: 100%;
+height: 80px;
+fill: #92b0b3;
+display: block;
+margin-bottom: 40px;
+}
+
+.box.is-uploading .box__input,
+.box.is-success .box__input,
+.box.is-error .box__input
+{
+visibility: hidden;
+}
+
+.box__uploading,
+.box__success,
+.box__error
+{
+display: none;
+}
+
+.box.is-uploading .box__uploading,
+.box.is-success .box__success,
+.box.is-error .box__error
+{
+display: block;
+position: absolute;
+top: 50%;
+right: 0;
+left: 0;
+
+-webkit-transform: translateY( -50% );
+transform: translateY( -50% );
+}
+.box__uploading
+{
+font-style: italic;
+}
+.box__success
+{
+-webkit-animation: appear-from-inside .25s ease-in-out;
+animation: appear-from-inside .25s ease-in-out;
+}
+@-webkit-keyframes appear-from-inside
+{
+from{ -webkit-transform: translateY( -50% ) scale( 0 ); }
+75%{ -webkit-transform: translateY( -50% ) scale( 1.1 ); }
+to{ -webkit-transform: translateY( -50% ) scale( 1 ); }
+}
+@keyframes appear-from-inside
+{
+from{ transform: translateY( -50% ) scale( 0 ); }
+75%{ transform: translateY( -50% ) scale( 1.1 ); }
+to{ transform: translateY( -50% ) scale( 1 ); }
+}
+
+.box__restart
+{
+font-weight: 700;
+}
+.box__restart:focus,
+.box__restart:hover
+{
+color: #39bfd3;
+}
+
+.js .box__file
+{
+width: 0.1px;
+height: 0.1px;
+opacity: 0;
+overflow: hidden;
+position: absolute;
+z-index: -1;
+}
+.js .box__file + label
+{
+max-width: 80%;
+text-overflow: ellipsis;
+white-space: nowrap;
+cursor: pointer;
+display: inline-block;
+overflow: hidden;
+}
+.js .box__file + label:hover strong,
+.box__file:focus + label strong,
+.box__file.has-focus + label strong
+{
+color: #39bfd3;
+}
+.js .box__file:focus + label,
+.js .box__file.has-focus + label
+{
+outline: 1px dotted #000;
+outline: -webkit-focus-ring-color auto 5px;
+}
+.js .box__file + label *
+{
+/* pointer-events: none; */ /* in case of FastClick lib use */
+}
+
+.no-js .box__file + label
+{
+display: none;
+}
+
+.no-js .box__button
+{
+display: block;
+}
+.box__button
+{
+font-weight: 700;
+color: #e5edf1;
+background-color: #39bfd3;
+display: none;
+padding: 8px 16px;
+margin: 40px auto 0;
+}
+.box__button:hover,
+.box__button:focus
+{
+background-color: #0f3c4b;
+}
+
+
+/* This expands the text for more room while typing */
+input[type=previewEmailEntries]
+{
+width: 500px;
+box-sizing: border-box;
+border: 1px solid #000000;
+font-size: 12px;
+background-color: white;
+-webkit-transition: width 0.4s ease-in-out;
+transition: width 0.4s ease-in-out;
+}
+
+input[type=previewEmailEntries]:focus
+{
+width: 700px;
+border: 3px solid #555;
+}
+
+input[type=email]
+{
+width: 130px;
+box-sizing: border-box;
+border: 1px solid #000000;
+font-size: 12px;
+background-color: white;
+-webkit-transition: width 0.4s ease-in-out;
+transition: width 0.4s ease-in-out;
+}
+
+input[type=email]:focus
+{
+width: 300px;
+border: 3px solid #555;
+}
+
+#scrollable_table tr:last-child td
+{
+border-bottom:0;
+}
+
