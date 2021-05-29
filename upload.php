@@ -87,7 +87,7 @@ if ($uploadOk == 1){
 
   if ($FileType == "csv"){
     $lines = strtok($MyFileContents, "\n") ;
-    if ($lines != "email,fullname,metadata,substitution_data"){
+    if ($lines != "email,name,return_path,metadata,substitution_data,tags "){
       echo "Invalid input file.  Table must be in this format:<br>email,fullname,metadata,substitution_data<br>";
       echo "JSON data must be enclosed in quotes.  IE: <br>email,fullname,metadata,substitution_data<br>
             tmairs@here.com,Tom Mairs,\"{'this':'that','here':'there'}\",\"{'first_name':'Tom','last_name':'Mairs'}\"<br>";
