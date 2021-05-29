@@ -29,12 +29,12 @@ include('common.php');
 
  
 
-  echo "List id: ".$recipData['results']['id']." \n";
-  echo "List name: ".$recipData['results']['name']." \n";
-  echo "List count: ".$recipData['results']['total_accepted_recipients']." \n";
+  echo "List id: ".$recipData['results']['id']." \r\n";
+  echo "List name: ".$recipData['results']['name']." \r\n";
+  echo "List count: ".$recipData['results']['total_accepted_recipients']." \r\n";
   echo "\n";
 
-  echo "email,name,return_path,metadata,substitution_data,tags \n";
+  echo "email,name,return_path,metadata,substitution_data,tags \r\n";
 
   $counter=0;
   foreach($recipData['results']['recipients'] as $k => $v){
@@ -58,7 +58,7 @@ include('common.php');
 
     foreach($v as $x => $y){
       if (strlen($y['email']) > 3 ){
-        echo "". $y['email'] .",". $y['name'] .",". $y['return_path'] .",\"{". $v_meta ."}\",\"{". $v_subs ."}\",\"[". $v_tags ."]\"\n";
+        echo "". $y['email'] .",". $y['name'] .",". $y['return_path'] .",\"{". $v_meta ."}\",\"{". $v_subs ."}\",\"[". $v_tags ."]\"\r\n";
           $counter++;
       }
     }
