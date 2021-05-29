@@ -1,5 +1,5 @@
 <?php
-include ('env.php');
+include('common.php');
 
   $listID = $_POST['listID'];
 
