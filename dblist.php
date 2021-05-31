@@ -10,10 +10,8 @@ if ($listID == ""){
 
 echo "Upload a new CSV file. One field must be named EMAIL and include addresses.<br>";
 echo '<form action="upload.php" method="post" enctype="multipart/form-data">
-  <input type="radio" id="ignore" name="dataoverride" value="0">
-  <label for="ignore">Ignore duplicates</label> &nbsp;  
-  <input type="radio" id="over" name="dataoverride" value="1">
-  <label for="over">Overwrite existing data</label><br>
+ <b>NOTE</b> - Any file uploaded has the potential to overwrite an entire list.  Be careful with your list names.<br>
+<br>
   Select CSV file to upload:
   <input type="file" name="fileToUpload" id="fileToUpload">
   <input type="submit" value="Upload" name="submit">
@@ -43,11 +41,9 @@ exit;
 
   $recipData = json_decode($response,true);
 
-  echo "<form name=f1 action=\"./importlist.php\" method=\"post\">";
   echo "<b>List id</b>: ".$recipData['results']['id']." <br>";
   echo "<b>List name</b>: ".$recipData['results']['name']." <br>";
   echo "<b>List count</b>: ".$recipData['results']['total_accepted_recipients']." <br>";
-  echo "</form>";
   echo "<form name=f2 action=\"./editlist.php\" method=\"post\">";
   echo "<input type=hidden name=SPRecipients value=".$listID.">";
   echo "<table border=1><tr><th>NAME</th><th>Email</th><th>Tags</th><th>Metadata</th><th>Substitutions</th><th>DEL</th></tr>";

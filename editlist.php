@@ -13,11 +13,7 @@ echo '<form action="index.php" method="post">
 </form>
 ';
 
-
 }
-
-var_dump($_POST);
-
 
 
 echo "<h2>WORKING....</h2><br>";
@@ -138,9 +134,6 @@ $NewJSONArray = '{
 
 foreach($recordRecipients as $x => $y){
 
-//$y[tags] = array("my","own","tag","list");
-
-
 echo "<br>Current record: ";
 var_dump ($y);
 
@@ -244,21 +237,6 @@ if($z > 0){
 
 
       }
-/*
-      if($meta !=""){
-        $NewJSONArray .= '       "metadata": {
-          "age": "24",
-          "place": "Bedrock"
-        }, ';
-      }
-
-      if($subs !=""){
-        $NewJSONArray .= '      "substitution_data": {
-          "favorite_color": "SparkPost Orange",
-          "job": "Software Engineer"
-        }';
-      }
-*/
 
   $NewJSONArray .= ' },';
     }

@@ -1,12 +1,8 @@
 <?php
 
-
 include('common.php');
 $now = time();
 
-$dup = 0;
-$dupreplace = 0;
-$dupreplace = $_POST['dataoverride'];
 
 $target_dir = "/var/www/html/cst/Ramesses/uploads/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -87,10 +83,12 @@ if ($uploadOk == 1){
 
   if ($FileType == "csv"){
     $lines = strtok($MyFileContents, "\n") ;
-    if ($lines != "email,name,return_path,metadata,substitution_data,tags "){
-      echo "Invalid input file.  Table must be in this format:<br>email,fullname,metadata,substitution_data<br>";
-      echo "JSON data must be enclosed in quotes.  IE: <br>email,fullname,metadata,substitution_data<br>
-            tmairs@here.com,Tom Mairs,\"{'this':'that','here':'there'}\",\"{'first_name':'Tom','last_name':'Mairs'}\"<br>";
+    if (substr($lines,0,17) != "email,name,return"){
+      echo "Invalid input file.  Table must be in this format:<br>email,name,return_path,metadata,substitution_data,tags<br>";
+      echo "JSON data must be enclosed in quotes.  IE: <br>email,name,return_path,metadata,substitution_data,tags<br>
+            tmairs@here.com,Tom Mairs,,\"{'this':'that','here':'there'}\",\"{'first_name':'Tom','last_name':'Mairs'}\",<br>";
+      echo " This is what I got: <br>";
+      echo $lines ."<br>";
     }
     $csv = array();
     $headers = array();
@@ -100,12 +98,12 @@ if ($uploadOk == 1){
     foreach ($lines as $key => $value){
       if ($i<1){
        $headers[$key] = str_getcsv($value);
-       if (($headers[0][0] == "email") && ($headers[0][1] == "fullname") && ($headers[0][2] == "metadata") 
-               && ($headers[0][3] == "substitution_data")){
+       if (($headers[0][0] == "email") && ($headers[0][1] == "name") && ($headers[0][3] == "metadata") 
+               && ($headers[0][4] == "substitution_data")){
          echo "Found  good file format - Continuing...<br>";
        }
        else {
-         echo "this file has bad headers - try again";
+         echo "this file has bad headers - try again<br>";
          exit;
        }
 
@@ -125,92 +123,113 @@ if ($uploadOk == 1){
       }
     }
 
-
-
-   foreach ($csv as $a => $b){
-      foreach ($b as $k => $v){
-        echo "<td> $v </td>";
+   $pcount = 0;
+     foreach ($csv as $a => $b){
+        foreach ($b as $k => $v){
+          echo "<td> $v </td>";
+        }
+      echo "</tr>";
+          $pcount ++;
+          if ($pcount > 11){
+            break;
+          }
       }
-    echo "</tr>";
-    }
 
     echo "</tr></table>";
+   $remainder = sizeof($csv) - 10;
+   echo "... and $remainder more rows.<br>";
 
-if ($dupreplace == 1 ){
- echo "you have chosed to overwrite existing data <br>";
-}
-else{
- echo "Ignoring any duplicate data <br>";
-}
-
+// write data to JSON
+  $NewJSONArray = ""; 
   foreach ($csv as $a => $b){
-    if($b[0] != "email"){
-     $query = "INSERT INTO MyContacts (email, name, meta, subs) VALUES (:P1, :P2, :P3, :P4)";
-     $query_params = array(
-              ':P1' => $b[0],
-              ':P2' => $b[1],
-              ':P3' => $b[2],
-              ':P4' => $b[3]       
-        );
-        try
-        {
-            $stmt = $db->prepare($query);
-            $result = $stmt->execute($query_params);
-        }
 
-        catch(PDOException $ex)
 
-       {
-           // die("Failed to run query: " . $ex->getMessage());
-            echo "Failed to add record for $b[0], address already exists.<br>";
-            $dup = 1;
-        }
+    if (implode($b) != "emailnamereturn_pathmetadatasubstitution_datatags"){
+  
+    $NewJSONArray .= '{
+      "address": {
+        "email": "'. $b[0] .'",
+        "name": "'. $b[1] .'"
+      }';
+
+    $NewJSONArray .= ', "tags": [';
+    foreach($b[5] as $tloop){
+          $NewJSONArray .= '"'.$tloop.'",';
     }
-     
-    if ($dup == 1){
-      if ($dupreplace == 1){
-        echo "Override set - replacing data for $b[0] <br>";
+    $NewJSONArray=trim ($NewJSONArray,",");
+    $NewJSONArray .= '] ';
 
-        $query = "UPDATE MyContacts SET name = :P2, meta = :P3, subs = :P4 WHERE email = :P1";
-        $query_params = array(
-              ':P1' => $b[0],
-              ':P2' => $b[1],
-              ':P3' => $b[2],
-              ':P4' => $b[3]
-        );
-        try
-        {
-            $stmt = $db->prepare($query);
-            $result = $stmt->execute($query_params);
-        }
-
-        catch(PDOException $ex)
-
-       {
-            die("Failed to run query: " . $ex->getMessage());
-        }
-      }
-      else {
-        echo "Duplicate NOT replaced <br>";
-      }   
-      $dup = 0;
+    $NewJSONArray .= ', "metadata": {';
+    foreach($b[3] as $key => $mloop){
+          $NewJSONArray .= '"'.$key.'":"'.$mloop.'",';
     }
+    $NewJSONArray=trim ($NewJSONArray,",");
+    $NewJSONArray .= '} ';
 
+    $NewJSONArray .= ', "substitution_data": {';
+    foreach($b[4] as $key => $sloop){
+          $NewJSONArray .= '"'.$key.'":"'.$sloop.'",';
+    }
+    $NewJSONArray=trim ($NewJSONArray,",");
+    $NewJSONArray .= '} ';
 
+  $NewJSONArray .= ' },';
+
+    }
   }
+  $NewJSONArray = trim($NewJSONArray,",");
+
+// Save the data as a Session Var
+$_SESSION['toothbrush'] = $NewJSONArray;
 
 
+/****************************************************/
+// Get the current list of lists
+$url = "https://".$apidomain."/api/v1/recipient-lists";
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($ch, CURLOPT_HEADER, FALSE);
+curl_setopt($ch, CURLOPT_POST, FALSE);
+//curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+  "Content-Type: application/json",
+  "Authorization: $apikey"
+));
+$response = curl_exec($ch);
+curl_close($ch);
+
+$reciplistArray = json_decode($response,true);
+
+// End list of lists selection
+/****************************************************/
+ 
+echo '<font color=red><b> WARNING</b> - chosing to REPLACE a list is irreverable and permanent!</font><br>';
   echo '
-    <input type=button name=btn value="Click here to continue" onclick="location.href=\'index.php\';"><br>
+    <form method=POST action="savelist.php">
+
+    Replace this list: 
+
+    <select name="SPRecipients" id="SPRecipients">
+      <option value=X selected>DO NOT REPLACE</option>
   ';
 
-
-
-
-
-
+  foreach($reciplistArray as $a=>$b){
+    foreach ($b as $c=>$d){
+      echo "<option value=$d[id] >$d[name]</option>";
+    }
   }
 
+  echo '</select><br>
+
+    ... OR ... <br>
+    Create New list named: <input type=text name=newlistname value="" placeholder="My New List 12345">
+    <input type=submit name=btnSubmit value="Save"> &nbsp;
+    <input type=reset onclick="location.href = \'lists.php\';"> 
+    </form> 
+ ';
+
+  }
 
 // Handle the JSON file type
 
@@ -222,34 +241,6 @@ else{
 
   }
 
- 
-
-/*
-    $file = fopen($target_file, 'r');
-    $r=1;
-    $foundHdr = 0;
-    $csv = array();
-    while (($line = fgetcsv($file)) !== FALSE) {
-  //    print_r($line);
-      foreach ($line as $k => $v){
-echo "$k => $v <br>";
-
-          if (($r == 1) && (strtolower($v) == "email")){
-            $foundHdr = 1;
-            echo " This is a valid file to import...<br>";
-          }
-      }
-
-        if ($foundHdr != 1){
-          echo " This is NOT a valid file :(<br>Exiting importer<br>";
-          exit;
-          // Replace this with a graceful exit
-        }
-*/
-
-
-
-   
   }
   if ($FileType == "html" || $FileType == "txt"){
     echo "Importing your $FileType template...";
@@ -263,9 +254,7 @@ echo "$k => $v <br>";
       $_SESSION['templateHTML'] = $filecontents;
     }
     if ($FileType == "txt"){
-      $_SESSION['templateTEXT'] = $filecontents;
-    }
-    echo "Click <input type=button value=here onClick=\"window.location.href='./quill.php';\"> to continue on to the editor and save.";
+      $_SESSION['templateTEXT'] = $filecontents; } echo "Click <input type=button value=here onClick=\"window.location.href='./quill.php';\"> to continue on to the editor and save.";
   }
 
 }
